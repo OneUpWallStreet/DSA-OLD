@@ -4,108 +4,128 @@
 // 3) Pop
 // 4) Values -> Returns Array of Stack Items
 
-class Node: Equatable {
+class Node: Equatable{
     static func == (lhs: Node, rhs: Node) -> Bool {
-        if lhs.next == rhs.next{
+        if lhs.next == rhs.next && lhs.value == rhs.value{
             return true
         }
         else{
             return false
         }
     }
-    var value: Int
+    var value: String
     var next: Node?
     
-    init(val: Int){
+    init(val: String) {
         value = val
     }
+    
 }
 
 
-class Stack{
-
+class Stack {
+    
     var Head: Node?
     var Tail: Node?
     
-//  Checks if stack is empty
-    func isEmpty() -> Bool {
-        if Tail == nil {
-            return true
-        }
-        else{
-            return false
-        }
-    }
     
-//  Add Value to the Head
-    func Push(value: Int){
-        
+    func Push(value: String){
         let Node = Node(val: value)
-        
-//      Pointing the old head to the new head just made
-        Head?.next = Node
-        
-//      Push the element to the head so we can remove it from there aswell -> LIFO
-        Head = Node
-        
-//      If this is the first element than Head and tail are the same
-        if Tail == nil {
+        if Head == nil {
+            Head = Node
             Tail = Node
         }
+        else{
+            Node.next = Head
+            Head = Node
+        }
     }
     
-//  Remove Value from Head
-    func Pop(){
+    func isEmpty() -> Bool {
+        
+        if Tail == nil || Head == nil{
+            return true
+        }
+        else {
+            return false
+        }
+        
+    }
+    
+    func Pop() -> String {
+        
+        var value: String
         
         if Tail == Head {
-            Tail = nil
+            value = (Tail?.value)!
+            print("Here")
             Head = nil
+            Tail = nil
+            return value
         }
         else{
-            Head = nil
+            value = (Head?.value)!
+            Head = Head?.next
+            return value
         }
+        
+        
+        
     }
     
-//  Print all the values in Stack
-    func Values() -> Array<Int>{
-        var array: Array<Int> = []
-        if Tail == nil {
+    func Values() -> Array<String> {
+        
+        var Node = Head
+        var array: Array<String> = []
+        
+        
+        if Head == nil || Tail == nil{
+//          Return empty array
             return array
         }
-        else{
-            var Node = Tail
-//          Go on till you encounter a head with a nil
-            while true{
-                array.append((Node?.value)!)
-                Node = Node?.next
+        
+//      If only 1 is left
+        if Node?.next == nil {
+            array.append((Node?.value)!)
+            return array
+        }
+        
+        
+        while true{
+            
+            array.append((Node?.value)!)
+            Node = Node?.next
+            
+            if Node?.next == nil{
                 
-                if Node?.next == nil {
-                    if let val = Node?.value{
-                        array.append(val)
-                    }
-                    else{
-                        print("SomeThing went wrong")
-                    }
-                    break
-                }
+                array.append((Node?.value)!)
+                break
                 
             }
-          return array
         }
+        
+        return array
     }
-    
-    
     
 }
 
-
 var stack = Stack()
-print("At the start: \(stack.isEmpty())")
-stack.Push(value: 32)
-stack.Push(value: 11)
-stack.Push(value: 99)
-stack.Push(value: 121)
-stack.Pop()
-print("Array returned from the stack: \(stack.Values())")
+stack.Push(value: "1")
+stack.Push(value: "2")
+stack.Push(value: "3")
+stack.Push(value: "4")
+stack.Push(value: "5")
 
+print(stack.Values())
+
+print(stack.Pop())
+print(stack.Pop())
+print(stack.Pop())
+print(stack.Pop())
+print(stack.Pop())
+
+
+print("Head value: \(stack.Head?.value) Head next: \(stack.Head?.next)")
+print("Tail value:  \(stack.Tail?.value) Tail next: \(stack.Tail?.next)")
+print(stack.Values())
 
