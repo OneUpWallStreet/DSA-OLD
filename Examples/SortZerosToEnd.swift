@@ -1,6 +1,6 @@
 import Foundation
 
-//Given a array sort the array such that all the zeros are placed at the end of array
+//Given a array sort the array elements such that all the zeros are placed at the end of array
 // Ex: [1,3,0,8,6,0,33,7] -> [1,3,8,6,33,7,0,0]
 
 func solution(array: Array<Int>) -> (answer: Array<Int>,timeTaken: Double) {
